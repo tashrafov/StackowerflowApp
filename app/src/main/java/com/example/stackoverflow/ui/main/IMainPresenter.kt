@@ -9,6 +9,7 @@ interface IMainPresenter {
         fun getQuestions()
         fun showDetailed(id: Long)
         fun initView(context: Context, view: View)
+        fun getQuestions(content:String)
     }
 
     interface View : BaseView {

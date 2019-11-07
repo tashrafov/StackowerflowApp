@@ -11,6 +11,26 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainPresenter : IMainPresenter.Presenter {
+    override fun getQuestions(content: String) {
+        val call: Call<QuestionList> = dataService.getSearchedQuestions(content)
+        call.enqueue(object : Callback<QuestionList> {
+            override fun onFailure(call: Call<QuestionList>, t: Throwable) {
+                view?.onFailure(t.message)
+            }
+
+            override fun onResponse(
+                call: Call<QuestionList>,
+                response: Response<QuestionList>
+            ) {
+                if (response.isSuccessful) {
+                    view?.bindQuestion(response.body()?.questions)
+                } else {
+                    view?.onFailure(response.errorBody().toString())
+                }
+            }
+        })
+    }
+
     override fun initView(context: Context, view: IMainPresenter.View) {
         this.view = view
         this.dataService = RetrofitClassInstance.dataServiceInstance!!

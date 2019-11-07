@@ -1,9 +1,11 @@
 package com.example.stackoverflow.ui.main
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stackoverflow.Adapter.main.QuestionRecyclerAdapter
 import com.example.stackoverflow.Adapter.main.onClickListener
@@ -45,5 +47,24 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
             presenter.getQuestions()
             mainRefreshView.isRefreshing = false
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val mSearch = menu.findItem(R.id.action_search)
+        val mSearchView = mSearch.actionView as SearchView
+        mSearchView.queryHint = "Search"
+
+        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                presenter.getQuestions(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        return super.onCreateOptionsMenu(menu)
     }
 }

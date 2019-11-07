@@ -17,5 +17,7 @@ interface GetDataService {
     @GET("/2.2/questions/{id}/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody")
     fun getAnswersWithBody(@Path("id") id: Long): Call<AnswerList>
 
+    @GET("/2.2/search?order=desc&sort=activity&site=stackoverflow")
+    fun getSearchedQuestions(@Query("intitle") content: String): Call<QuestionList>
 
 }
