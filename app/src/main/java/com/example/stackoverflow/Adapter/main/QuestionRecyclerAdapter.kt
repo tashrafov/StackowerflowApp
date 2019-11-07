@@ -36,11 +36,17 @@ class QuestionRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: QuestionRecyclerAdapter.QuestionHolder, position: Int) {
-        holder.questionText?.text = Html.fromHtml(questions[position].title)
-        when (questions[position].is_answered) {
-            true -> holder.questionState?.setImageResource(R.drawable.ic_answered)
-            false -> holder.questionState?.setImageResource(R.drawable.ic_not_answered)
+        holder.questionText.text = Html.fromHtml(questions[position].title)
+        if (questions[position].answer_count == 0) {
+            holder.answerCount.background =
+                context.resources.getDrawable(R.drawable.not_answered_background)
+            holder.answerCount.setTextColor(context.resources.getColor(android.R.color.darker_gray))
+        } else {
+            holder.answerCount.background =
+                context.resources.getDrawable(R.drawable.answered_background)
+            holder.answerCount.setTextColor(context.resources.getColor(android.R.color.holo_green_light))
         }
+        holder.answerCount.text = questions[position].answer_count.toString().trim()
         holder.itemView.setOnClickListener {
             onClickListener.onClicked(questions[position].question_id)
         }
@@ -51,7 +57,7 @@ class QuestionRecyclerAdapter(
 
     class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val questionText = itemView.questionText
-        val questionState = itemView.questionState
+        val answerCount = itemView.answerCount
     }
 
 }

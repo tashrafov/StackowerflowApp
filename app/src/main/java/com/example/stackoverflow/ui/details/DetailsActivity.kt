@@ -21,6 +21,7 @@ class DetailsActivity : AppCompatActivity(), IDetailPresenter.View {
         detailRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         detailRecyclerView.adapter = QuestionAnswerAdapter(answers, this)
+      //  detailRecyclerView.isNestedScrollingEnabled = false
     }
 
 

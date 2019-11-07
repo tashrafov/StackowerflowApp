@@ -23,21 +23,25 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:justificationMode="inter_word"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/questionState"
+            app:layout_constraintBottom_toBottomOf="@+id/answerCount"
+            app:layout_constraintEnd_toStartOf="@+id/answerCount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/answerCount"
             tools:targetApi="o" />
 
-        <ImageView
-            android:id="@+id/questionState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/answerCount"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="@string/question_state"
+            android:background="@drawable/answered_background"
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_green_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

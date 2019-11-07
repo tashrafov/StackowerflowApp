@@ -34,6 +34,7 @@ class QuestionAnswerAdapter(val answerList: List<Answer>, val context: Context) 
         Glide.with(context).load(answerList[position].owner.profile_image).into(holder.ownerImage)
         holder.ownerName.text = Html.fromHtml(answerList[position].owner.display_name)
         holder.answer.text = Html.fromHtml(answerList[position].body)
+        holder.points.text = answerList[position].score.toString()
 
     }
 
@@ -43,5 +44,6 @@ class QuestionAnswerAdapter(val answerList: List<Answer>, val context: Context) 
         val ownerImage = itemView.ownerAvatar
         val ownerName = itemView.ownerName
         val answer = itemView.answerBody
+        val points = itemView.answerPoint
     }
 }

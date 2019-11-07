@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StackOverflow</string>
     <string name="question_state">Question state</string>
+    <string name="points">Points:</string>
 </resources>
