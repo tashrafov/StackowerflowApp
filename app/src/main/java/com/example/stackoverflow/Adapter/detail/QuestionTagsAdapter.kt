@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stackoverflow.R
 import kotlinx.android.synthetic.main.tag_item.view.*
 
-class QuestionTagsAdapter(val tags: List<String>, val context: Context) :
+class QuestionTagsAdapter(
+    val tags: List<String>,
+    val context: Context,
+    var tagClickListener: tagClickListener
+) :
     RecyclerView.Adapter<QuestionTagsAdapter.TagHolder>() {
 
 
@@ -28,6 +32,7 @@ class QuestionTagsAdapter(val tags: List<String>, val context: Context) :
 
     override fun onBindViewHolder(holder: TagHolder, position: Int) {
         holder.tag?.text = tags[position]
+        holder.itemView.setOnClickListener { tagClickListener.onClicked(tags[position]) }
     }
 
     class TagHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

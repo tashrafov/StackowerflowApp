@@ -10,10 +10,12 @@ interface IMainPresenter {
         fun showDetailed(id: Long)
         fun initView(context: Context, view: View)
         fun getQuestions(content:String)
+        fun getMoreQuestions()
     }
 
     interface View : BaseView {
         fun bindQuestion(list: List<Question>?)
+        fun showDetailed(id:Long)
         fun onFailure(message: String?)
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.stackoverflow.Adapter.detail.QuestionAnswerAdapter
 import com.example.stackoverflow.Adapter.detail.QuestionTagsAdapter
+import com.example.stackoverflow.Adapter.detail.tagClickListener
 import com.example.stackoverflow.BaseApp
 import com.example.stackoverflow.R
 import com.example.stackoverflow.model.Answer
@@ -16,12 +17,16 @@ import com.example.stackoverflow.model.Question
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 
-class DetailsActivity : AppCompatActivity(), IDetailPresenter.View {
+class DetailsActivity : AppCompatActivity(), IDetailPresenter.View, tagClickListener {
+    override fun onClicked(tag: String) {
+        presenter.tagClicked(tag)
+    }
+
     override fun setAnswers(answers: List<Answer>) {
         detailRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         detailRecyclerView.adapter = QuestionAnswerAdapter(answers, this)
-      //  detailRecyclerView.isNestedScrollingEnabled = false
+        detailRecyclerView.isNestedScrollingEnabled = false
     }
 
 
@@ -43,7 +48,7 @@ class DetailsActivity : AppCompatActivity(), IDetailPresenter.View {
         questionBody.text = Html.fromHtml(question.body)
         detailTagRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        detailTagRecyclerView.adapter = QuestionTagsAdapter(question.tags, this)
+        detailTagRecyclerView.adapter = QuestionTagsAdapter(question.tags, this, this)
         if (question.is_answered) {
             presenter.getAnswers(question.question_id)
         }

@@ -31,7 +31,10 @@ class QuestionAnswerAdapter(val answerList: List<Answer>, val context: Context) 
         when (answerList[position].is_accepted) {
             true -> holder.is_answered.setImageResource(R.drawable.ic_answered)
         }
-        Glide.with(context).load(answerList[position].owner.profile_image).into(holder.ownerImage)
+        answerList[position].owner.profile_image?.let {
+            Glide.with(context).load(answerList[position].owner.profile_image)
+                .into(holder.ownerImage)
+        }
         holder.ownerName.text = Html.fromHtml(answerList[position].owner.display_name)
         holder.answer.text = Html.fromHtml(answerList[position].body)
         holder.points.text = answerList[position].score.toString()

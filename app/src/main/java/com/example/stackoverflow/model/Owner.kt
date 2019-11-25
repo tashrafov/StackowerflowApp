@@ -16,7 +16,7 @@ class Owner {
     lateinit var user_type: String
     @SerializedName("profile_image")
     @Expose
-    lateinit var profile_image: String
+    var profile_image: String? = null
     @SerializedName("display_name")
     @Expose
     lateinit var display_name: String

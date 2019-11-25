@@ -10,6 +10,7 @@ interface IDetailPresenter {
         fun initView(context: Context, view: View)
         fun getQuestion(id: Long)
         fun getAnswers(id: Long)
+        fun tagClicked(tag:String)
     }
 
     interface View : BaseView {

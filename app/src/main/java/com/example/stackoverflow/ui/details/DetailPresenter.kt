@@ -5,11 +5,17 @@ import com.example.stackoverflow.model.AnswerList
 import com.example.stackoverflow.model.QuestionList
 import com.example.stackoverflow.network.GetDataService
 import com.example.stackoverflow.network.RetrofitClassInstance
+import com.example.stackoverflow.ui.main.IMainPresenter
+import com.example.stackoverflow.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class DetailPresenter : IDetailPresenter.Presenter {
+    override fun tagClicked(tag: String) {
+        //TODO implement the tag clicked method
+    }
+
     override fun getQuestion(id: Long) {
         view?.showProgressBar(true)
         val call: Call<QuestionList> = dataService?.getQuestionWithBody(id)
