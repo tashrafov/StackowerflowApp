@@ -66,7 +66,7 @@ class DetailsActivity : AppCompatActivity(), IDetailPresenter.View, tagClickList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         (application as BaseApp).baseComponent.inject(this)
-        presenter.initView(this, this)
+        presenter.initView( this)
         presenter.getQuestion(intent.getLongExtra("id", 0L))
 
     }

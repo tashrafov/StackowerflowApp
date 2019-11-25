@@ -1,10 +1,10 @@
 package com.example.stackoverflow.ui.main
 
-import android.content.Context
 import com.example.stackoverflow.model.Question
 import com.example.stackoverflow.model.QuestionList
 import com.example.stackoverflow.network.GetDataService
 import com.example.stackoverflow.network.RetrofitClassInstance
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,12 +15,11 @@ class MainPresenter : IMainPresenter.Presenter {
     var QUESTION_LIST_SIZE: Int = 50
     var QUESTION_MAX_LIST_SIZE: Int = 150
     lateinit var dataService: GetDataService
-    lateinit var context: Context
-    var questions: List<Question> = emptyList()
+    var questions = listOf<Question>()
 
     override fun getMoreQuestions() {
-        if (questions.size == QUESTION_MAX_LIST_SIZE)
-            questions = emptyList()
+//        if (questions.size == QUESTION_MAX_LIST_SIZE)
+//            questions =
         getQuestions()
 
     }
@@ -39,16 +38,20 @@ class MainPresenter : IMainPresenter.Presenter {
                 if (response.isSuccessful) {
                     view?.bindQuestion(response.body()?.questions)
                 } else {
-                    view?.onFailure(response.errorBody().toString())
+                    try {
+                        val error = JSONObject(response.errorBody()?.string().toString())
+                        view?.onFailure(error.getString("error_message"))
+                    } catch (e: Exception) {
+                        view?.onFailure(e.message)
+                    }
                 }
             }
         })
     }
 
-    override fun initView(context: Context, view: IMainPresenter.View) {
+    override fun initView(view: IMainPresenter.View) {
         this.view = view
         this.dataService = RetrofitClassInstance.dataServiceInstance!!
-        this.context = context
     }
 
     override fun getQuestions() {
@@ -66,7 +69,12 @@ class MainPresenter : IMainPresenter.Presenter {
                     questions = questions.plus(response.body()?.questions!!)
                     view?.bindQuestion(questions)
                 } else {
-                    view?.onFailure(response.errorBody().toString())
+                    try {
+                        val error = JSONObject(response.errorBody()?.string().toString())
+                        view?.onFailure(error.getString("error_message"))
+                    } catch (e: Exception) {
+                        view?.onFailure(e.message)
+                    }
                 }
             }
         })

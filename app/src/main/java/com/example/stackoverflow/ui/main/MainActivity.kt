@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
         setContentView(R.layout.activity_main)
         Fabric.with(this, Crashlytics())
         (application as BaseApp).baseComponent.inject(this)
-        presenter.initView(this, this)
+        presenter.initView(this)
         presenter.getQuestions()
         mainRefreshView.setOnRefreshListener {
             presenter.getQuestions()

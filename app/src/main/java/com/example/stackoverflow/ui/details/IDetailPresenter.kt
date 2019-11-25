@@ -7,7 +7,7 @@ import com.example.stackoverflow.ui.common.BaseView
 
 interface IDetailPresenter {
     interface Presenter {
-        fun initView(context: Context, view: View)
+        fun initView(view: View)
         fun getQuestion(id: Long)
         fun getAnswers(id: Long)
         fun tagClicked(tag:String)

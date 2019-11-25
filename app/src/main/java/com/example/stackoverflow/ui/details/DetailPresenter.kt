@@ -7,6 +7,7 @@ import com.example.stackoverflow.network.GetDataService
 import com.example.stackoverflow.network.RetrofitClassInstance
 import com.example.stackoverflow.ui.main.IMainPresenter
 import com.example.stackoverflow.ui.main.MainActivity
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +31,12 @@ class DetailPresenter : IDetailPresenter.Presenter {
                 if (response.isSuccessful) {
                     response.body()?.questions?.get(0)?.let { view?.setQuestion(it) }
                 } else {
-                    view?.onFailure(response.errorBody().toString())
+                    try {
+                        val error = JSONObject(response.errorBody()?.string().toString())
+                        view?.onFailure(error.getString("error_message"))
+                    } catch (e: Exception) {
+                        view?.onFailure(e.message)
+                    }
                 }
             }
 
@@ -51,21 +57,23 @@ class DetailPresenter : IDetailPresenter.Presenter {
                 if (response.isSuccessful) {
                     response.body()?.answers?.let { view?.setAnswers(it) }
                 } else {
-                    view?.onFailure(response.errorBody().toString())
+                    try {
+                        val error = JSONObject(response.errorBody()?.string().toString())
+                        view?.onFailure(error.getString("error_message"))
+                    } catch (e: Exception) {
+                        view?.onFailure(e.message)
+                    }
                 }
             }
 
         })
     }
-
-    lateinit var context: Context
     var view: IDetailPresenter.View? = null
 
 
     lateinit var dataService: GetDataService
 
-    override fun initView(context: Context, view: IDetailPresenter.View) {
-        this.context = context
+    override fun initView(view: IDetailPresenter.View) {
         this.view = view
         dataService = RetrofitClassInstance.dataServiceInstance!!
     }
