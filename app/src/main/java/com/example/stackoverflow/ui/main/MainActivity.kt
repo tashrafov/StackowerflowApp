@@ -35,15 +35,20 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
     @Inject
     lateinit var presenter: IMainPresenter.Presenter
 
+    var isLoading: Boolean = false
+
+    var adapter: QuestionRecyclerAdapter = QuestionRecyclerAdapter(emptyList(), this, this)
+
     override fun bindQuestion(list: List<Question>?) {
-        val adapter = list?.let { QuestionRecyclerAdapter(list, this, this) }
-        mainRecyclerView.layoutManager = LinearLayoutManager(this)
-        mainRecyclerView.adapter = adapter
+        isLoading = false
+        list?.let { adapter.updateList(list) }
+        mainRecyclerView.adapter?.notifyDataSetChanged()
         mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) { //1 down,-1 up,0 will always return false
+                if (!recyclerView.canScrollVertically(1) && !isLoading) { //1 down,-1 up,0 will always return false
                     presenter.getMoreQuestions()
+                    isLoading = true
                 }
             }
         })
@@ -64,6 +69,8 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
         (application as BaseApp).baseComponent.inject(this)
         presenter.initView(this)
         presenter.getQuestions()
+        mainRecyclerView.layoutManager = LinearLayoutManager(this)
+        mainRecyclerView.adapter = adapter
         mainRefreshView.setOnRefreshListener {
             presenter.getQuestions()
             mainRefreshView.isRefreshing = false

@@ -18,10 +18,7 @@ class MainPresenter : IMainPresenter.Presenter {
     var questions = listOf<Question>()
 
     override fun getMoreQuestions() {
-//        if (questions.size == QUESTION_MAX_LIST_SIZE)
-//            questions =
         getQuestions()
-
     }
 
     override fun getQuestions(content: String) {

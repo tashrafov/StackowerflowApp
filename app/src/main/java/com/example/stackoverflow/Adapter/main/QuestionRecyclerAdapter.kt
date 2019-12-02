@@ -11,11 +11,15 @@ import com.example.stackoverflow.model.Question
 import kotlinx.android.synthetic.main.question_item_layout.view.*
 
 class QuestionRecyclerAdapter(
-    val questions: List<Question>,
+    var questions: List<Question>,
     val context: Context,
     val onClickListener: onClickListener
 ) :
     RecyclerView.Adapter<QuestionRecyclerAdapter.QuestionHolder>() {
+
+    fun updateList(questions: List<Question>){
+        this.questions = questions
+    }
 
 
     override fun onCreateViewHolder(
