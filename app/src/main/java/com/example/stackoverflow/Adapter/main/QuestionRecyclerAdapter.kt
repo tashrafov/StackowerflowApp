@@ -5,10 +5,15 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.stackoverflow.R
 import com.example.stackoverflow.model.Question
 import kotlinx.android.synthetic.main.question_item_layout.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class QuestionRecyclerAdapter(
     var questions: List<Question>,
@@ -17,7 +22,7 @@ class QuestionRecyclerAdapter(
 ) :
     RecyclerView.Adapter<QuestionRecyclerAdapter.QuestionHolder>() {
 
-    fun updateList(questions: List<Question>){
+    fun updateList(questions: List<Question>) {
         this.questions = questions
     }
 
@@ -41,16 +46,13 @@ class QuestionRecyclerAdapter(
 
     override fun onBindViewHolder(holder: QuestionRecyclerAdapter.QuestionHolder, position: Int) {
         holder.questionText.text = Html.fromHtml(questions[position].title)
-        if (questions[position].answer_count == 0) {
-            holder.answerCount.background =
-                context.resources.getDrawable(R.drawable.not_answered_background)
-            holder.answerCount.setTextColor(context.resources.getColor(android.R.color.darker_gray))
-        } else {
-            holder.answerCount.background =
-                context.resources.getDrawable(R.drawable.answered_background)
-            holder.answerCount.setTextColor(context.resources.getColor(android.R.color.holo_green_light))
-        }
-        holder.answerCount.text = questions[position].answer_count.toString().trim()
+        holder.userName.text = Html.fromHtml(questions[position].owner.display_name)
+        holder.questionDate.text = Html.fromHtml(getDate(questions[position].creation_date))
+        Glide.with(context).load(questions[position].owner.profile_image).into(holder.userImage)
+        holder.userImage.animation =
+            AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        holder.container.animation =
+            AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation)
         holder.itemView.setOnClickListener {
             onClickListener.onClicked(questions[position].question_id)
         }
@@ -61,7 +63,19 @@ class QuestionRecyclerAdapter(
 
     class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val questionText = itemView.questionText
-        val answerCount = itemView.answerCount
+        //        val answerCount = itemView.answerCount
+        val questionDate = itemView.questionDate
+        val userImage = itemView.userImg
+        val userName = itemView.userName
+        val container = itemView.container
     }
 
+    private fun getDate(millis: Long): String {
+        val formatter = SimpleDateFormat("dd-MMM-yyyy")
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(millis * 1000)
+        return formatter.format(calendar.getTime())
+    }
 }

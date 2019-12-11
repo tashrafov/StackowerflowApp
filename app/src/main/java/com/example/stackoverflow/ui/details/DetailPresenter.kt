@@ -13,8 +13,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailPresenter : IDetailPresenter.Presenter {
+
     override fun tagClicked(tag: String) {
-        //TODO implement the tag clicked method
+
     }
 
     override fun getQuestion(id: Long) {

@@ -18,6 +18,9 @@ interface GetDataService {
     fun getAnswersWithBody(@Path("id") id: Long): Call<AnswerList>
 
     @GET("/2.2/search?order=desc&sort=activity&site=stackoverflow")
-    fun getSearchedQuestions(@Query("intitle") content: String): Call<QuestionList>
+    fun getSearchedQuestions(@Query("intitle") content: String, @Query("page") page: Int,@Query("pagesize") size: Int): Call<QuestionList>
+
+    @GET("/2.2/questions?order=desc&sort=activity&site=stackoverflow")
+    fun getTaggedQuestions(@Query("tagged") tag: String, @Query("page") page: Int,@Query("pagesize") size: Int): Call<QuestionList>
 
 }

@@ -6,10 +6,12 @@ import com.example.stackoverflow.ui.common.BaseView
 interface IMainPresenter {
     interface Presenter {
         fun getQuestions()
-        fun showDetailed(id: Long)
         fun initView(view: View)
         fun getQuestions(content: String)
+        fun getTaggedQuestions(tag: String)
         fun getMoreQuestions()
+        fun increasePageNumber()
+        fun resetPageNumber()
     }
 
     interface View : BaseView {

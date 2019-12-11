@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.stackoverflow">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".BaseApp"
         android:allowBackup="true"
+        android:appCategory="social"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".BaseApp"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.details.DetailsActivity"></activity>
         <activity android:name=".ui.main.MainActivity">
@@ -19,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0ea6fb43d1a44df6011061999ef04f37f45e5c9c" />

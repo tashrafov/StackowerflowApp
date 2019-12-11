@@ -10,19 +10,65 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainPresenter : IMainPresenter.Presenter {
+    override fun resetPageNumber() {
+        currentPage = 1
+    }
+
+    override fun increasePageNumber() {
+        currentPage++
+    }
+
+    override fun getTaggedQuestions(tag: String) {
+        checkLastOperation(2)
+        value = tag
+        val call: Call<QuestionList> =
+            dataService.getTaggedQuestions(tag, currentPage, QUESTION_LIST_SIZE)
+        call.enqueue(object : Callback<QuestionList> {
+            override fun onFailure(call: Call<QuestionList>, t: Throwable) {
+                view?.onFailure(t.message)
+            }
+
+            override fun onResponse(call: Call<QuestionList>, response: Response<QuestionList>) {
+                if (response.isSuccessful) {
+                    questions = questions.plus(response.body()?.questions!!)
+                    view?.bindQuestion(questions)
+                } else {
+                    try {
+                        val error = JSONObject(response.errorBody()?.string().toString())
+                        view?.onFailure(error.getString("error_message"))
+                    } catch (e: Exception) {
+                        view?.onFailure(e.message)
+                    }
+                }
+            }
+
+        })
+        increasePageNumber()
+    }
 
     var view: IMainPresenter.View? = null
     var QUESTION_LIST_SIZE: Int = 50
     var QUESTION_MAX_LIST_SIZE: Int = 150
+    var currentPage = 1
     lateinit var dataService: GetDataService
     var questions = listOf<Question>()
+    private var lastOperation: Int = 0 // 0 - getQuestions, 1 - getSearch, 2 - getTagged
+    var value: String = ""
 
     override fun getMoreQuestions() {
-        getQuestions()
+        when (lastOperation) {
+            0 -> getQuestions()
+            1 -> getQuestions(value)
+            2 -> getTaggedQuestions(value)
+        }
     }
 
+
     override fun getQuestions(content: String) {
-        val call: Call<QuestionList> = dataService.getSearchedQuestions(content)
+        checkLastOperation(1)
+        value = content
+        val call: Call<QuestionList> =
+            dataService.getSearchedQuestions(content, currentPage, QUESTION_LIST_SIZE)
         call.enqueue(object : Callback<QuestionList> {
             override fun onFailure(call: Call<QuestionList>, t: Throwable) {
                 view?.onFailure(t.message)
@@ -33,7 +79,8 @@ class MainPresenter : IMainPresenter.Presenter {
                 response: Response<QuestionList>
             ) {
                 if (response.isSuccessful) {
-                    view?.bindQuestion(response.body()?.questions)
+                    questions = questions.plus(response.body()?.questions!!)
+                    view?.bindQuestion(questions)
                 } else {
                     try {
                         val error = JSONObject(response.errorBody()?.string().toString())
@@ -44,6 +91,7 @@ class MainPresenter : IMainPresenter.Presenter {
                 }
             }
         })
+        increasePageNumber()
     }
 
     override fun initView(view: IMainPresenter.View) {
@@ -52,6 +100,7 @@ class MainPresenter : IMainPresenter.Presenter {
     }
 
     override fun getQuestions() {
+        checkLastOperation(0)
         val call: Call<QuestionList> = dataService.getQuestions(QUESTION_LIST_SIZE)
         call.enqueue(object : Callback<QuestionList> {
             override fun onFailure(call: Call<QuestionList>, t: Throwable) {
@@ -77,7 +126,12 @@ class MainPresenter : IMainPresenter.Presenter {
         })
     }
 
-    override fun showDetailed(id: Long) {
-        view?.showDetailed(id)
+    fun checkLastOperation(lastOperation: Int) {
+        if (this.lastOperation != lastOperation) {
+            resetPageNumber()
+            this.lastOperation = lastOperation
+            questions = emptyList()
+        }
+
     }
 }

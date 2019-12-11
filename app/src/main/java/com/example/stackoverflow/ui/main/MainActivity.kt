@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
     }
 
     override fun onClicked(id: Long) {
-        presenter.showDetailed(id)
+        showDetailed(id)
     }
 
     @Inject
@@ -43,15 +43,6 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
         isLoading = false
         list?.let { adapter.updateList(list) }
         mainRecyclerView.adapter?.notifyDataSetChanged()
-        mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && !isLoading) { //1 down,-1 up,0 will always return false
-                    presenter.getMoreQuestions()
-                    isLoading = true
-                }
-            }
-        })
     }
 
     override fun onFailure(message: String?) {
@@ -71,6 +62,15 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View, onClickListener {
         presenter.getQuestions()
         mainRecyclerView.layoutManager = LinearLayoutManager(this)
         mainRecyclerView.adapter = adapter
+        mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && !isLoading) { //1 down,-1 up,0 will always return false
+                    presenter.getMoreQuestions()
+                    isLoading = true
+                }
+            }
+        })
         mainRefreshView.setOnRefreshListener {
             presenter.getQuestions()
             mainRefreshView.isRefreshing = false

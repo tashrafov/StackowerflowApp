@@ -14,12 +14,14 @@ import com.example.stackoverflow.BaseApp
 import com.example.stackoverflow.R
 import com.example.stackoverflow.model.Answer
 import com.example.stackoverflow.model.Question
+import com.example.stackoverflow.ui.main.IMainPresenter
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity(), IDetailPresenter.View, tagClickListener {
     override fun onClicked(tag: String) {
-        presenter.tagClicked(tag)
+        mainPresenter.getTaggedQuestions(tag)
+        finish()
     }
 
     override fun setAnswers(answers: List<Answer>) {
@@ -61,12 +63,14 @@ class DetailsActivity : AppCompatActivity(), IDetailPresenter.View, tagClickList
 
     @Inject
     lateinit var presenter: IDetailPresenter.Presenter
+    @Inject
+    lateinit var mainPresenter: IMainPresenter.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         (application as BaseApp).baseComponent.inject(this)
-        presenter.initView( this)
+        presenter.initView(this)
         presenter.getQuestion(intent.getLongExtra("id", 0L))
 
     }
