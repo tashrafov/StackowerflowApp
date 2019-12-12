@@ -7,3 +7,5 @@ Link to StackOverflow api is: https://api.stackexchange.com/docs
  - [Dagger2](https://github.com/google/dagger) used for Dependency Injection  
  - [Glide](https://bumptech.github.io/glide/) used for Image Loading  
  - App was developed using [Kotlin](https://kotlinlang.org/)  
+ # Screenshot
+ ![Main screen](https://raw.githubusercontent.com/tashrafov/StackowerflowApp/master/Screenshots/screenshot1.png)
