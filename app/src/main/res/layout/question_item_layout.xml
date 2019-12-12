@@ -54,9 +54,110 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:textColor="@color/content_text_color"
+            android:textColor="@color/content_text_color" />
 
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/questionText"
+            android:layout_alignStart="@+id/userName"
+            android:layout_alignLeft="@id/userName"
+            android:layout_alignEnd="@+id/questionDate"
+            android:layout_alignRight="@+id/questionDate"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/viewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/views"
+                android:textColor="@color/content_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/questionViews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="1285"
+                android:textColor="@color/user_text_color"
+                app:layout_constraintEnd_toEndOf="@+id/viewLabel"
+                app:layout_constraintStart_toStartOf="@+id/viewLabel"
+                app:layout_constraintTop_toBottomOf="@+id/viewLabel" />
+
+            <TextView
+                android:id="@+id/answerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/answers"
+                android:textColor="@color/content_text_color"
+                app:layout_constraintEnd_toStartOf="@+id/questionViews"
+                app:layout_constraintStart_toEndOf="@id/questionScore"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/questionAnswers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="1285"
+                android:textColor="@color/user_text_color"
+                app:layout_constraintEnd_toEndOf="@+id/answerLabel"
+                app:layout_constraintStart_toStartOf="@+id/answerLabel"
+                app:layout_constraintTop_toBottomOf="@+id/answerLabel" />
+
+            <TextView
+                android:id="@+id/scoreLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score"
+                android:textColor="@color/content_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/questionScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="1285"
+                android:textColor="@color/user_text_color"
+                app:layout_constraintEnd_toEndOf="@+id/scoreLabel"
+                app:layout_constraintStart_toStartOf="@+id/scoreLabel"
+                app:layout_constraintTop_toBottomOf="@+id/scoreLabel" />
+
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/content_text_color"
+                app:layout_constraintBottom_toBottomOf="@+id/questionViews"
+                app:layout_constraintEnd_toStartOf="@+id/questionAnswers"
+                app:layout_constraintStart_toEndOf="@+id/viewLabel"
+                app:layout_constraintTop_toTopOf="@+id/viewLabel" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/content_text_color"
+                app:layout_constraintBottom_toBottomOf="@+id/questionViews"
+                app:layout_constraintEnd_toStartOf="@+id/questionScore"
+                app:layout_constraintStart_toEndOf="@+id/questionAnswers"
+                app:layout_constraintTop_toTopOf="@+id/viewLabel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 
     <ImageView

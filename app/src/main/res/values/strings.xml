@@ -3,4 +3,7 @@
     <string name="question_state">Question state</string>
     <string name="points">Points:</string>
     <string name="search">Search</string>
+    <string name="views">Views</string>
+    <string name="answers">Answers</string>
+    <string name="score">Score</string>
 </resources>

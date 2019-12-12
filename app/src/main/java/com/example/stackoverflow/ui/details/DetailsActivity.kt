@@ -25,9 +25,10 @@ class DetailsActivity : AppCompatActivity(), IDetailPresenter.View, tagClickList
     }
 
     override fun setAnswers(answers: List<Answer>) {
+        var sortedList = answers.sortedWith(compareBy(Answer::is_accepted, Answer::score)).reversed()
         detailRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        detailRecyclerView.adapter = QuestionAnswerAdapter(answers, this)
+        detailRecyclerView.adapter = QuestionAnswerAdapter(sortedList, this)
         detailRecyclerView.isNestedScrollingEnabled = false
     }
 

@@ -48,6 +48,9 @@ class QuestionRecyclerAdapter(
         holder.questionText.text = Html.fromHtml(questions[position].title)
         holder.userName.text = Html.fromHtml(questions[position].owner.display_name)
         holder.questionDate.text = Html.fromHtml(getDate(questions[position].creation_date))
+        holder.questionAnswer.text = Html.fromHtml(questions[position].answer_count.toString())
+        holder.questionScore.text = Html.fromHtml(questions[position].score.toString())
+        holder.questionView.text = Html.fromHtml(questions[position].view_count.toString())
         Glide.with(context).load(questions[position].owner.profile_image).into(holder.userImage)
         holder.userImage.animation =
             AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
@@ -63,11 +66,14 @@ class QuestionRecyclerAdapter(
 
     class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val questionText = itemView.questionText
-        //        val answerCount = itemView.answerCount
+
         val questionDate = itemView.questionDate
         val userImage = itemView.userImg
         val userName = itemView.userName
         val container = itemView.container
+        val questionScore = itemView.questionScore
+        val questionAnswer = itemView.questionAnswers
+        val questionView = itemView.questionViews
     }
 
     private fun getDate(millis: Long): String {
